@@ -1,2 +1,7 @@
-/target
-/Cargo.lock
+target
+artifacts
+.idea
+packages/*/schema
+contracts/*/schema
+.vscode
+.DS_Store
