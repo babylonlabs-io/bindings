@@ -16,9 +16,8 @@ pub struct CurrentEpochResponse {
     pub epoch: u64,
 }
 #[cw_serde]
-pub struct LatestFinalizedEpochResponse{
+pub struct LatestFinalizedEpochResponse {
     pub epoch: u64,
 }
 
 impl CustomQuery for BabylonQuery {}
-
