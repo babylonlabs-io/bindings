@@ -16,4 +16,10 @@ impl<'a> BabylonQuerier<'a> {
         let res: CurrentEpochResponse = self.querier.query(&request)?;
         Ok(Uint64::new(res.epoch))
     }
+
+    pub fn latest_finalized_epoch(&self) -> StdResult<Uint64> {
+        let request = BabylonQuery::LatestFinalizedEpoch {}.into();
+        let res: CurrentEpochResponse = self.querier.query(&request)?;
+        Ok(Uint64::new(res.epoch))
+    }
 }

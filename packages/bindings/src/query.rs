@@ -6,17 +6,19 @@ use cosmwasm_std::CustomQuery;
 pub enum BabylonQuery {
     #[returns(CurrentEpochResponse)]
     Epoch {},
+
+    #[returns(LatestFinalizedEpochResponse)]
+    LatestFinalizedEpoch {},
 }
 
 #[cw_serde]
 pub struct CurrentEpochResponse {
     pub epoch: u64,
 }
+#[cw_serde]
+pub struct LatestFinalizedEpochResponse{
+    pub epoch: u64,
+}
 
 impl CustomQuery for BabylonQuery {}
 
-impl BabylonQuery {
-    pub fn current_epoch() -> Self {
-        BabylonQuery::Epoch {}
-    }
-}
