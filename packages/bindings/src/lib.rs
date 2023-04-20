@@ -3,7 +3,10 @@ mod query;
 mod types;
 
 pub use querier::BabylonQuerier;
-pub use query::{BabylonQuery, BtcTipResponse, CurrentEpochResponse, LatestFinalizedEpochResponse};
+pub use query::{
+    BabylonQuery, BtcBaseHeaderResponse, BtcHeaderByQueryResponse, BtcTipResponse,
+    CurrentEpochResponse, LatestFinalizedEpochResponse,
+};
 pub use types::{BtcBlockHeader, BtcBlockHeaderInfo};
 
 // This export is added to all contracts that import this package, signifying that they require

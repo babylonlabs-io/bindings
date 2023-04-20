@@ -1,6 +1,9 @@
 use cosmwasm_std::{QuerierWrapper, StdResult, Uint64};
 
-use crate::query::{BabylonQuery, BtcTipResponse, CurrentEpochResponse};
+use crate::query::{
+    BabylonQuery, BtcBaseHeaderResponse, BtcHeaderByQueryResponse, BtcTipResponse,
+    CurrentEpochResponse,
+};
 use crate::types::BtcBlockHeaderInfo;
 
 pub struct BabylonQuerier<'a> {
@@ -27,6 +30,27 @@ impl<'a> BabylonQuerier<'a> {
     pub fn btc_tip(&self) -> StdResult<BtcBlockHeaderInfo> {
         let request = BabylonQuery::BtcTip {}.into();
         let res: BtcTipResponse = self.querier.query(&request)?;
+        Ok(res.header_info)
+    }
+
+    pub fn btc_base_header(&self) -> StdResult<BtcBlockHeaderInfo> {
+        let request = BabylonQuery::BtcBaseHeader {}.into();
+        let res: BtcBaseHeaderResponse = self.querier.query(&request)?;
+        Ok(res.header_info)
+    }
+
+    pub fn btc_header_by_number(&self, height: u64) -> StdResult<Option<BtcBlockHeaderInfo>> {
+        let request = BabylonQuery::BtcHeaderByNumber { height }.into();
+        let res: BtcHeaderByQueryResponse = self.querier.query(&request)?;
+        Ok(res.header_info)
+    }
+
+    pub fn btc_header_by_hash(&self, hash: &str) -> StdResult<Option<BtcBlockHeaderInfo>> {
+        let request = BabylonQuery::BtcHeaderByHash {
+            hash: hash.to_string(),
+        }
+        .into();
+        let res: BtcHeaderByQueryResponse = self.querier.query(&request)?;
         Ok(res.header_info)
     }
 }
