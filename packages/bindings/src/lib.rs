@@ -4,7 +4,7 @@ mod types;
 
 pub use querier::BabylonQuerier;
 pub use query::{
-    BabylonQuery, BtcBaseHeaderResponse, BtcHeaderByQueryResponse, BtcTipResponse,
+    BabylonQuery, BtcBaseHeaderResponse, BtcHeaderQueryResponse, BtcTipResponse,
     CurrentEpochResponse, LatestFinalizedEpochResponse,
 };
 pub use types::{BtcBlockHeader, BtcBlockHeaderInfo};

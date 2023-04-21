@@ -17,10 +17,10 @@ pub enum BabylonQuery {
     #[returns(BtcTipResponse)]
     BtcTip {},
 
-    #[returns(BtcHeaderByQueryResponse)]
-    BtcHeaderByNumber { height: u64 },
+    #[returns(BtcHeaderQueryResponse)]
+    BtcHeaderByHeight { height: u64 },
 
-    #[returns(BtcHeaderByQueryResponse)]
+    #[returns(BtcHeaderQueryResponse)]
     BtcHeaderByHash { hash: String },
 }
 
@@ -43,7 +43,7 @@ pub struct BtcBaseHeaderResponse {
     pub header_info: BtcBlockHeaderInfo,
 }
 #[cw_serde]
-pub struct BtcHeaderByQueryResponse {
+pub struct BtcHeaderQueryResponse {
     pub header_info: Option<BtcBlockHeaderInfo>,
 }
 

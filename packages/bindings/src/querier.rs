@@ -1,7 +1,7 @@
 use cosmwasm_std::{QuerierWrapper, StdResult, Uint64};
 
 use crate::query::{
-    BabylonQuery, BtcBaseHeaderResponse, BtcHeaderByQueryResponse, BtcTipResponse,
+    BabylonQuery, BtcBaseHeaderResponse, BtcHeaderQueryResponse, BtcTipResponse,
     CurrentEpochResponse,
 };
 use crate::types::BtcBlockHeaderInfo;
@@ -39,9 +39,9 @@ impl<'a> BabylonQuerier<'a> {
         Ok(res.header_info)
     }
 
-    pub fn btc_header_by_number(&self, height: u64) -> StdResult<Option<BtcBlockHeaderInfo>> {
-        let request = BabylonQuery::BtcHeaderByNumber { height }.into();
-        let res: BtcHeaderByQueryResponse = self.querier.query(&request)?;
+    pub fn btc_header_by_height(&self, height: u64) -> StdResult<Option<BtcBlockHeaderInfo>> {
+        let request = BabylonQuery::BtcHeaderByHeight { height }.into();
+        let res: BtcHeaderQueryResponse = self.querier.query(&request)?;
         Ok(res.header_info)
     }
 
@@ -50,7 +50,7 @@ impl<'a> BabylonQuerier<'a> {
             hash: hash.to_string(),
         }
         .into();
-        let res: BtcHeaderByQueryResponse = self.querier.query(&request)?;
+        let res: BtcHeaderQueryResponse = self.querier.query(&request)?;
         Ok(res.header_info)
     }
 }

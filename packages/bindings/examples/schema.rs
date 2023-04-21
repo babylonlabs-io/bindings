@@ -5,7 +5,7 @@ use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
 
 use babylon_bindings::{
     BabylonQuery, BtcBaseHeaderResponse, BtcBlockHeader, BtcBlockHeaderInfo,
-    BtcHeaderByQueryResponse, BtcTipResponse, CurrentEpochResponse, LatestFinalizedEpochResponse,
+    BtcHeaderQueryResponse, BtcTipResponse, CurrentEpochResponse, LatestFinalizedEpochResponse,
 };
 
 fn main() {
@@ -19,7 +19,7 @@ fn main() {
     export_schema(&schema_for!(LatestFinalizedEpochResponse), &out_dir);
     export_schema(&schema_for!(BtcTipResponse), &out_dir);
     export_schema(&schema_for!(BtcBaseHeaderResponse), &out_dir);
-    export_schema(&schema_for!(BtcHeaderByQueryResponse), &out_dir);
+    export_schema(&schema_for!(BtcHeaderQueryResponse), &out_dir);
     export_schema(&schema_for!(BtcBlockHeaderInfo), &out_dir);
     export_schema(&schema_for!(BtcBlockHeader), &out_dir);
 }
