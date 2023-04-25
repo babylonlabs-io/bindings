@@ -1,12 +1,18 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "LatestFinalizedEpochResponse",
+  "title": "FinalizedEpochInfo",
   "type": "object",
   "required": [
-    "epoch"
+    "epoch_number",
+    "last_block_height"
   ],
   "properties": {
-    "epoch": {
+    "epoch_number": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "last_block_height": {
       "type": "integer",
       "format": "uint64",
       "minimum": 0.0

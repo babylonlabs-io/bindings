@@ -17,3 +17,10 @@ pub struct BtcBlockHeaderInfo {
     pub header: BtcBlockHeader,
     pub height: u64,
 }
+#[cw_serde]
+pub struct FinalizedEpochInfo {
+    // Number of the latest finalized epoch
+    pub epoch_number: u64,
+    // Height of the last block in the latest finalized epoch
+    pub last_block_height: u64,
+}

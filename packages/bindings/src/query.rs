@@ -1,4 +1,4 @@
-use crate::types::BtcBlockHeaderInfo;
+use crate::types::{BtcBlockHeaderInfo, FinalizedEpochInfo};
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::CustomQuery;
 
@@ -8,8 +8,8 @@ pub enum BabylonQuery {
     #[returns(CurrentEpochResponse)]
     Epoch {},
 
-    #[returns(LatestFinalizedEpochResponse)]
-    LatestFinalizedEpoch {},
+    #[returns(LatestFinalizedEpochInfoResponse)]
+    LatestFinalizedEpochInfo {},
 
     #[returns(BtcBaseHeaderResponse)]
     BtcBaseHeader {},
@@ -29,8 +29,8 @@ pub struct CurrentEpochResponse {
     pub epoch: u64,
 }
 #[cw_serde]
-pub struct LatestFinalizedEpochResponse {
-    pub epoch: u64,
+pub struct LatestFinalizedEpochInfoResponse {
+    pub epoch_info: FinalizedEpochInfo,
 }
 
 #[cw_serde]
