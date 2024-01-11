@@ -1,11 +1,10 @@
-use babylon_bindings::BabylonQuery;
 use cosmwasm_std::{
     entry_point, to_json_binary, to_json_vec, ContractResult, Deps, DepsMut, Env, MessageInfo,
     QueryRequest, QueryResponse, Response, StdError, StdResult, SystemResult,
 };
-
+use babylon_bindings::BabylonQuery;
 use crate::msg::{ChainResponse, InstantiateMsg, OwnerResponse, QueryMsg};
-use crate::state::{config, config_read, State};
+use crate::state::{State, CONFIG};
 
 #[entry_point]
 pub fn instantiate(
@@ -15,7 +14,7 @@ pub fn instantiate(
     _msg: InstantiateMsg,
 ) -> StdResult<Response> {
     let state = State { owner: info.sender };
-    config(deps.storage).save(&state)?;
+    CONFIG.save(deps.storage, &state)?;
     Ok(Response::default())
 }
 
@@ -28,7 +27,7 @@ pub fn query(deps: Deps<BabylonQuery>, _env: Env, msg: QueryMsg) -> StdResult<Qu
 }
 
 fn query_owner(deps: Deps<BabylonQuery>) -> StdResult<OwnerResponse> {
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
     let resp = OwnerResponse {
         owner: state.owner.into(),
     };
@@ -111,8 +110,8 @@ mod tests {
             .into(),
         };
         let response = query(deps.as_ref(), mock_env(), msg).unwrap();
-        let outer: ChainResponse = from_json(&response).unwrap();
-        let inner: AllBalanceResponse = from_json(&outer.data).unwrap();
+        let outer: ChainResponse = from_json(response).unwrap();
+        let inner: AllBalanceResponse = from_json(outer.data).unwrap();
         assert_eq!(inner.amount, coins(123, "ucosm"));
 
         // TODO? or better in multitest?
