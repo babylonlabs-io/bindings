@@ -1,10 +1,10 @@
+use crate::msg::{ChainResponse, InstantiateMsg, OwnerResponse, QueryMsg};
+use crate::state::{State, CONFIG};
+use babylon_bindings::BabylonQuery;
 use cosmwasm_std::{
     entry_point, to_json_binary, to_json_vec, ContractResult, Deps, DepsMut, Env, MessageInfo,
     QueryRequest, QueryResponse, Response, StdError, StdResult, SystemResult,
 };
-use babylon_bindings::BabylonQuery;
-use crate::msg::{ChainResponse, InstantiateMsg, OwnerResponse, QueryMsg};
-use crate::state::{State, CONFIG};
 
 #[entry_point]
 pub fn instantiate(
