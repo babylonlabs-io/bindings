@@ -1,11 +1,10 @@
+use crate::msg::{ChainResponse, InstantiateMsg, OwnerResponse, QueryMsg};
+use crate::state::{State, CONFIG};
 use babylon_bindings::BabylonQuery;
 use cosmwasm_std::{
-    entry_point, to_binary, to_vec, ContractResult, Deps, DepsMut, Env, MessageInfo, QueryRequest,
-    QueryResponse, Response, StdError, StdResult, SystemResult,
+    entry_point, to_json_binary, to_json_vec, ContractResult, Deps, DepsMut, Env, MessageInfo,
+    QueryRequest, QueryResponse, Response, StdError, StdResult, SystemResult,
 };
-
-use crate::msg::{ChainResponse, InstantiateMsg, OwnerResponse, QueryMsg};
-use crate::state::{config, config_read, State};
 
 #[entry_point]
 pub fn instantiate(
@@ -15,20 +14,20 @@ pub fn instantiate(
     _msg: InstantiateMsg,
 ) -> StdResult<Response> {
     let state = State { owner: info.sender };
-    config(deps.storage).save(&state)?;
+    CONFIG.save(deps.storage, &state)?;
     Ok(Response::default())
 }
 
 #[entry_point]
 pub fn query(deps: Deps<BabylonQuery>, _env: Env, msg: QueryMsg) -> StdResult<QueryResponse> {
     match msg {
-        QueryMsg::Owner {} => to_binary(&query_owner(deps)?),
-        QueryMsg::Chain { request } => to_binary(&query_chain(deps, &request)?),
+        QueryMsg::Owner {} => to_json_binary(&query_owner(deps)?),
+        QueryMsg::Chain { request } => to_json_binary(&query_chain(deps, &request)?),
     }
 }
 
 fn query_owner(deps: Deps<BabylonQuery>) -> StdResult<OwnerResponse> {
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
     let resp = OwnerResponse {
         owner: state.owner.into(),
     };
@@ -39,7 +38,7 @@ fn query_chain(
     deps: Deps<BabylonQuery>,
     request: &QueryRequest<BabylonQuery>,
 ) -> StdResult<ChainResponse> {
-    let raw = to_vec(request).map_err(|serialize_err| {
+    let raw = to_json_vec(request).map_err(|serialize_err| {
         StdError::generic_err(format!("Serializing QueryRequest: {}", serialize_err))
     })?;
     match deps.querier.raw_query(&raw) {
@@ -61,7 +60,7 @@ mod tests {
     use cosmwasm_std::testing::{
         mock_env, mock_info, MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR,
     };
-    use cosmwasm_std::{coins, from_binary, AllBalanceResponse, BankQuery, Coin};
+    use cosmwasm_std::{coins, from_json, AllBalanceResponse, BankQuery, Coin};
     use cosmwasm_std::{OwnedDeps, SystemError};
     use std::marker::PhantomData;
 
@@ -111,8 +110,8 @@ mod tests {
             .into(),
         };
         let response = query(deps.as_ref(), mock_env(), msg).unwrap();
-        let outer: ChainResponse = from_binary(&response).unwrap();
-        let inner: AllBalanceResponse = from_binary(&outer.data).unwrap();
+        let outer: ChainResponse = from_json(response).unwrap();
+        let inner: AllBalanceResponse = from_json(outer.data).unwrap();
         assert_eq!(inner.amount, coins(123, "ucosm"));
 
         // TODO? or better in multitest?
@@ -121,8 +120,8 @@ mod tests {
         //     request: BabylonQuery::Ping {}.into(),
         // };
         // let response = query(deps.as_ref(), mock_env(), msg).unwrap();
-        // let outer: ChainResponse = from_binary(&response).unwrap();
-        // let inner: SpecialResponse = from_binary(&outer.data).unwrap();
+        // let outer: ChainResponse = from_json(&response).unwrap();
+        // let inner: SpecialResponse = from_json(&outer.data).unwrap();
         // assert_eq!(inner.msg, "pong");
     }
 
