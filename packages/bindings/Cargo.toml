@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Konrad Staniec <KonradStaniec@users.noreply.github.com>"]
 edition = "2021"
 description = "Bindings for CustomMsg and CustomQuery for the Babylon blockchain"
-repository = "https://github.com/babylonchain/bindings"
+repository = "https://github.com/babylonlabs-io/bindings"
 license = "Apache-2.0"
 
 [dependencies]
