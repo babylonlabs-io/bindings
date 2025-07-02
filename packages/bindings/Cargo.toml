@@ -1,6 +1,6 @@
 [package]
 name = "babylon-bindings"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Konrad Staniec <KonradStaniec@users.noreply.github.com>"]
 edition = "2021"
 description = "Bindings for CustomMsg and CustomQuery for the Babylon blockchain"
