@@ -8,8 +8,5 @@ repository = "https://github.com/babylonlabs-io/bindings"
 license = "Apache-2.0"
 
 [dependencies]
-serde = { version = "1.0.195", default-features = false, features = ["derive"] }
-schemars = "0.8.12"
-
 cosmwasm-schema = "2.1.4"
 cosmwasm-std = "2.1.4"
