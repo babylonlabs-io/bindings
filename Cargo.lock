@@ -153,8 +153,6 @@ version = "0.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "schemars",
- "serde",
 ]
 
 [[package]]
@@ -167,7 +165,6 @@ dependencies = [
  "cw-storage-plus",
  "schemars",
  "serde",
- "thiserror",
 ]
 
 [[package]]
