@@ -58,7 +58,7 @@ fn query_chain(
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{
-        mock_env, mock_info, MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR,
+        message_info, mock_env, MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR,
     };
     use cosmwasm_std::{coins, from_json, AllBalanceResponse, BankQuery, Coin};
     use cosmwasm_std::{OwnedDeps, SystemError};
@@ -87,7 +87,8 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         let msg = InstantiateMsg {};
-        let info = mock_info("creator", &coins(1000, "earth"));
+        let creator = &deps.api.addr_make("creator");
+        let info = message_info(creator, &coins(1000, "earth"));
 
         // we can just call .unwrap() to assert this was a success
         let res = instantiate(deps.as_mut(), mock_env(), info, msg).unwrap();
@@ -95,7 +96,7 @@ mod tests {
 
         // it worked, let's query the state
         let value = query_owner(deps.as_ref()).unwrap();
-        assert_eq!("creator", value.owner.as_str());
+        assert_eq!(creator.to_string(), value.owner);
     }
 
     #[test]
@@ -104,6 +105,7 @@ mod tests {
 
         // with bank query
         let msg = QueryMsg::Chain {
+            #[allow(deprecated)]
             request: BankQuery::AllBalances {
                 address: MOCK_CONTRACT_ADDR.to_string(),
             }
