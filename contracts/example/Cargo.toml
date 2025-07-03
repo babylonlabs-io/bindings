@@ -16,7 +16,6 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 schemars = "0.8.16"
 serde = { version = "1.0.195", default-features = false, features = ["derive"] }
-thiserror = "1.0.56"
 
 cosmwasm-schema = "2.1.7"
 cosmwasm-std = { version = "2.1.7", features = ["iterator"] }
